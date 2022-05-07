@@ -39,16 +39,16 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   bool isLocal;
   PlayerMode mode;
 
-  AudioPlayer _audioPlayer;
-  Duration _duration;
-  Duration _position;
+ late  AudioPlayer _audioPlayer;
+ late  Duration _duration;
+ late  Duration _position;
 
-  PlayerState _playerState = PlayerState.stopped;
-  StreamSubscription _durationSubscription;
-  StreamSubscription _positionSubscription;
-  StreamSubscription _playerCompleteSubscription;
-  StreamSubscription _playerErrorSubscription;
-  StreamSubscription _playerStateSubscription;
+  late PlayerState _playerState = PlayerState.stopped;
+  late StreamSubscription _durationSubscription;
+  late StreamSubscription _positionSubscription;
+  late StreamSubscription _playerCompleteSubscription;
+  late StreamSubscription _playerErrorSubscription;
+  late StreamSubscription _playerStateSubscription;
 
   get _isPlaying => _playerState == PlayerState.playing;
   get _isPaused => _playerState == PlayerState.paused;
@@ -56,18 +56,18 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   get _positionText => _position?.toString()?.split('.')?.first ?? '';
 
   _PlayerWidgetState(
-    this._audioPlayer,
+    // this._audioPlayer,
     this.url,
     this.isLocal,
     this.mode,
-    this._duration,
-    this._durationSubscription,
-    this._playerCompleteSubscription,
-    this._playerErrorSubscription,
-    this._playerState,
-    this._playerStateSubscription,
-    this._position,
-    this._positionSubscription,
+    // this._duration,
+    // this._durationSubscription,
+    // this._playerCompleteSubscription,
+    // this._playerErrorSubscription,
+    // this._playerState,
+    // this._playerStateSubscription,
+    // this._position,
+    // this._positionSubscription,
   );
 
   @override
