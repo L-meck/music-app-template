@@ -1,85 +1,74 @@
-import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'MyPlayerWidget.dart';
-import 'image_art.dart';
-typedef void OnError(Exception exception);
+import 'logic.dart';
 
+typedef OnError = void Function(Exception exception);
 
-
-const songurl = 'https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3';
+const songurl =
+    'https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3';
 
 void main() {
-  runApp(new MaterialApp(home: new MyMusicPlayer()));
+  runApp(const MaterialApp(home: MyMusicPlayer()));
 }
 
 class MyMusicPlayer extends StatefulWidget {
+  const MyMusicPlayer({Key? key}) : super(key: key);
+
   @override
   _MusicPlayerState createState() => new _MusicPlayerState();
 }
 
 class _MusicPlayerState extends State<MyMusicPlayer> {
-
   AudioPlayer advancedPlayer = AudioPlayer();
 
-
-
   Widget remoteUrl() {
-    return Container(
-      child: Column(
-        //   mainAxisSize: MainAxisSize.min,
-         crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Column(
+      //   mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
 
-          children: [
+      children: [
+        // ImageSong("assets/images/thumbnail.png"),
 
-            // ImageSong("assets/images/thumbnail.png"),
-
-        Text(
+        const Text(
           'Rihanna',
-          style: TextStyle(fontWeight: FontWeight.bold,
-              color: Colors.white),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
           textAlign: TextAlign.center,
-
         ),
-        Text(
+        const Text(
           'Give me my money ',
-           style: TextStyle(fontWeight: FontWeight.normal,
-           color: Colors.white),
+          style:
+              TextStyle(fontWeight: FontWeight.normal, color: Colors.white),
           textAlign: TextAlign.center,
-
         ),
         PlayerWidget(url: songurl),
-
-      ],),
+      ],
     );
   }
-@override
+
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         StreamProvider<Duration>.value(
-            initialData: Duration(),
+            initialData: const Duration(),
             value: advancedPlayer.onAudioPositionChanged),
       ],
       child: DefaultTabController(
         length: 1,
         child: Scaffold(
-    body: Center(
-    child: Container(
-    decoration: BoxDecoration(
-    gradient: LinearGradient(
-    begin: Alignment.topRight,
-    end: Alignment.bottomLeft,
-    colors: [Colors.black54, Colors.purple])),
-    child: remoteUrl(),
-    ),
-    ),
-    ),
+          body: Center(
+            child: Container(
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [Colors.black54, Colors.purple])),
+              child: remoteUrl(),
+            ),
+          ),
+        ),
       ),
     );
   }
 }
-
-
-

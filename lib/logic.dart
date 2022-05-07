@@ -1,24 +1,36 @@
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 enum PlayerState { stopped, playing, paused }
 
 class PlayerWidget extends StatefulWidget {
-  final String url;
+  final url;
   final bool isLocal;
   final PlayerMode mode;
 
   PlayerWidget(
-      {@required this.url,
-        this.isLocal = false,
-        this.mode = PlayerMode.MEDIA_PLAYER});
+      {required this.url,
+      this.isLocal = false,
+      this.mode = PlayerMode.MEDIA_PLAYER});
 
   @override
   State<StatefulWidget> createState() {
-    return _PlayerWidgetState(url, isLocal, mode);
+    return _PlayerWidgetState(
+      url, 
+      isLocal, 
+      mode,
+    // _audioPlayer,
+    // _duration,
+    // _durationSubscription,
+    // _playerCompleteSubscription,
+    // _playerErrorSubscription,
+    // _playerState,
+    // _playerStateSubscription,
+    // _position,
+    // _positionSubscription,
+      );
   }
 }
 
@@ -28,7 +40,6 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   PlayerMode mode;
 
   AudioPlayer _audioPlayer;
-  AudioPlayerState _audioPlayerState;
   Duration _duration;
   Duration _position;
 
@@ -44,7 +55,20 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   get _durationText => _duration?.toString()?.split('.')?.first ?? '';
   get _positionText => _position?.toString()?.split('.')?.first ?? '';
 
-  _PlayerWidgetState(this.url, this.isLocal, this.mode);
+  _PlayerWidgetState(
+    this._audioPlayer,
+    this.url,
+    this.isLocal,
+    this.mode,
+    this._duration,
+    this._durationSubscription,
+    this._playerCompleteSubscription,
+    this._playerErrorSubscription,
+    this._playerState,
+    this._playerStateSubscription,
+    this._position,
+    this._positionSubscription,
+  );
 
   @override
   void initState() {
@@ -55,11 +79,11 @@ class _PlayerWidgetState extends State<PlayerWidget> {
   @override
   void dispose() {
     _audioPlayer.stop();
-    _durationSubscription?.cancel();
-    _positionSubscription?.cancel();
-    _playerCompleteSubscription?.cancel();
-    _playerErrorSubscription?.cancel();
-    _playerStateSubscription?.cancel();
+    _durationSubscription.cancel();
+    _positionSubscription.cancel();
+    _playerCompleteSubscription.cancel();
+    _playerErrorSubscription.cancel();
+    _playerStateSubscription.cancel();
     super.dispose();
   }
 
@@ -72,7 +96,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(12.0),
               child: Stack(
                 children: [
                   Slider(
@@ -82,14 +106,13 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                           .seek(Duration(milliseconds: Position.round()));
                     },
                     value: (_position != null &&
-                        _duration != null &&
-                        _position.inMilliseconds > 0 &&
-                        _position.inMilliseconds < _duration.inMilliseconds)
+                            _duration != null &&
+                            _position.inMilliseconds > 0 &&
+                            _position.inMilliseconds < _duration.inMilliseconds)
                         ? _position.inMilliseconds / _duration.inMilliseconds
                         : 0.0,
                     activeColor: Colors.white,
                   ),
-
                 ],
               ),
             ),
@@ -99,44 +122,46 @@ class _PlayerWidgetState extends State<PlayerWidget> {
               //mainAxisSize: MainAxisSize.max,
               children: [
                 Text(
-                  _position != null
-                      ? '${_positionText ?? ''}' : "00:00",
-                  style: TextStyle(color: Colors.white),
-
-
+                  _position != null ? '${_positionText ?? ''}' : "00:00",
+                  style: const TextStyle(color: Colors.white),
                 ),
                 Text(
                   _position != null
                       ? '${_durationText ?? ''}'
-                      : _duration != null ? _durationText : "00:00",
-                  style: TextStyle(color: Colors.white),
+                      : _duration != null
+                          ? _durationText
+                          : "00:00",
+                  style: const TextStyle(color: Colors.white),
                 ),
               ],
             ),
-
           ],
         ),
-
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-                 iconSize: 64.0,
-                icon: Icon(Icons.skip_previous),
-                color: Colors.white70),
+              iconSize: 64.0,
+              icon: const Icon(Icons.skip_previous),
+              color: Colors.white70,
+              onPressed: () {},
+            ),
             IconButton(
                 onPressed: _isPlaying ? () => _pause() : () => _play(),
                 iconSize: 64.0,
-                icon: _isPlaying ?  Icon(Icons. pause_circle_filled):Icon(Icons. play_circle_filled) ,
+                icon: _isPlaying
+                    ? const Icon(Icons.pause_circle_filled)
+                    : const Icon(Icons.play_circle_filled),
                 color: Colors.white70),
-           IconButton(
-               iconSize: 64.0,
-             icon: Icon(Icons.skip_next),
-                color: Colors.white70),
-
+            IconButton(
+              iconSize: 64.0,
+              icon: const Icon(Icons.skip_next),
+              color: Colors.white70,
+              onPressed: () {},
+            ),
           ],
         ),
-       ],
+      ],
     );
   }
 
@@ -145,53 +170,49 @@ class _PlayerWidgetState extends State<PlayerWidget> {
 
     _durationSubscription = _audioPlayer.onDurationChanged.listen((duration) {
       setState(() => _duration = duration);
-
-
     });
 
     _positionSubscription =
         _audioPlayer.onAudioPositionChanged.listen((p) => setState(() {
-          _position = p;
-        }));
+              _position = p;
+            }));
 
     _playerCompleteSubscription =
         _audioPlayer.onPlayerCompletion.listen((event) {
-          _onComplete();
-          setState(() {
-            _position = _duration;
-          });
-        });
+      _onComplete();
+      setState(() {
+        _position = _duration;
+      });
+    });
 
     _playerErrorSubscription = _audioPlayer.onPlayerError.listen((msg) {
       print('audioPlayer error : $msg');
       setState(() {
         _playerState = PlayerState.stopped;
-        _duration = Duration(seconds: 0);
-        _position = Duration(seconds: 0);
+        _duration = const Duration(seconds: 0);
+        _position = const Duration(seconds: 0);
       });
     });
 
     _audioPlayer.onPlayerStateChanged.listen((state) {
       if (!mounted) return;
       setState(() {
-        _audioPlayerState = state;
+        // _audioPlayerState = state;
       });
     });
   }
 
   Future<int> _play() async {
     final playPosition = (_position != null &&
-        _duration != null &&
-        _position.inMilliseconds > 0 &&
-        _position.inMilliseconds < _duration.inMilliseconds)
+            _duration != null &&
+            _position.inMilliseconds > 0 &&
+            _position.inMilliseconds < _duration.inMilliseconds)
         ? _position
         : null;
     final result =
-
-    await _audioPlayer.play(url, isLocal: false, position: playPosition);
+        await _audioPlayer.play(url, isLocal: false, position: playPosition);
 
     if (result == 1) setState(() => _playerState = PlayerState.playing);
-
 
     return result;
   }
@@ -207,7 +228,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
     if (result == 1) {
       setState(() {
         _playerState = PlayerState.stopped;
-        _position = Duration();
+        _position = const Duration();
       });
     }
     return result;
