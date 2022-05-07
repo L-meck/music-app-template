@@ -21,15 +21,6 @@ class PlayerWidget extends StatefulWidget {
       url, 
       isLocal, 
       mode,
-    // _audioPlayer,
-    // _duration,
-    // _durationSubscription,
-    // _playerCompleteSubscription,
-    // _playerErrorSubscription,
-    // _playerState,
-    // _playerStateSubscription,
-    // _position,
-    // _positionSubscription,
       );
   }
 }
@@ -52,22 +43,13 @@ class _PlayerWidgetState extends State<PlayerWidget> {
 
   get _isPlaying => _playerState == PlayerState.playing;
   get _isPaused => _playerState == PlayerState.paused;
-  get _durationText => _duration?.toString()?.split('.')?.first ?? '';
-  get _positionText => _position?.toString()?.split('.')?.first ?? '';
+  get _durationText => _duration.toString().split('.').first;
+  get _positionText => _position.toString().split('.').first;
 
   _PlayerWidgetState(
-    // this._audioPlayer,
     this.url,
     this.isLocal,
     this.mode,
-    // this._duration,
-    // this._durationSubscription,
-    // this._playerCompleteSubscription,
-    // this._playerErrorSubscription,
-    // this._playerState,
-    // this._playerStateSubscription,
-    // this._position,
-    // this._positionSubscription,
   );
 
   @override

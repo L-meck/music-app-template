@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'image_art.dart';
 import 'logic.dart';
 
 typedef OnError = void Function(Exception exception);
@@ -16,7 +17,7 @@ class MyMusicPlayer extends StatefulWidget {
   const MyMusicPlayer({Key? key}) : super(key: key);
 
   @override
-  _MusicPlayerState createState() => new _MusicPlayerState();
+  _MusicPlayerState createState() => _MusicPlayerState();
 }
 
 class _MusicPlayerState extends State<MyMusicPlayer> {
@@ -37,8 +38,7 @@ class _MusicPlayerState extends State<MyMusicPlayer> {
         ),
         const Text(
           'Give me my money ',
-          style:
-              TextStyle(fontWeight: FontWeight.normal, color: Colors.white),
+          style: TextStyle(fontWeight: FontWeight.normal, color: Colors.white),
           textAlign: TextAlign.center,
         ),
         PlayerWidget(url: songurl),
@@ -60,11 +60,43 @@ class _MusicPlayerState extends State<MyMusicPlayer> {
           body: Center(
             child: Container(
               decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                      colors: [Colors.black54, Colors.purple])),
-              child: remoteUrl(),
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [Colors.black54, Colors.purple],
+                ),
+              ),
+              // child: remoteUrl(),
+              child: Container(
+                child: Column(
+                  //   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+
+                  children: [
+                    // ImageSong("assets/images/thumbnail.png"),
+                    Container(
+                      constraints: const BoxConstraints.expand(height: 400.0),
+                      // decoration: BoxDecoration(),
+                      child: const Center(child: Text('mmmmmmmmmm')),
+                    ),
+                    const Text(
+                      'Rihanna',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                    const Text(
+                      'Give me my money ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                    PlayerWidget(
+                        url:
+                            'https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3'),
+                  ],
+                ),
+              ),
             ),
           ),
         ),

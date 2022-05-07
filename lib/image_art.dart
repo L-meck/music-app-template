@@ -8,12 +8,12 @@ class ImageSong extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-
-        constraints: BoxConstraints.expand(height: 400.0),
-        // decoration: BoxDecoration(),
-        child: Image.asset(
-          _assetPath,
-          fit: BoxFit.none,
-        ));
+      constraints: const BoxConstraints.expand(height: 400.0),
+      // decoration: BoxDecoration(),
+      child: Image.asset(
+        _assetPath,
+        fit: BoxFit.none,
+      ),
+    );
   }
 }
