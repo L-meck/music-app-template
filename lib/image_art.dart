@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ImageSong extends StatelessWidget {
   final String _assetPath;
 
-  ImageSong(this._assetPath);
+  const ImageSong(this._assetPath, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
