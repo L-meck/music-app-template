@@ -77,7 +77,7 @@ class _MusicPlayerState extends State<MyMusicPlayer> {
                     Container(
                       constraints: const BoxConstraints.expand(height: 400.0),
                       // decoration: BoxDecoration(),
-                      child: const Center(child: Text('mmmmmmmmmm')),
+                      child: const Center(child: Text('Song 1')),
                     ),
                     const Text(
                       'Rihanna',
