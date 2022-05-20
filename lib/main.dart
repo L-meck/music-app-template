@@ -32,12 +32,12 @@ class _MusicPlayerState extends State<MyMusicPlayer> {
         // ImageSong("assets/images/thumbnail.png"),
 
         const Text(
-          'Rihanna',
+          ' 🌳🐰🌳 ',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
           textAlign: TextAlign.center,
         ),
         const Text(
-          'Give me my money ',
+          'lets work together',
           style: TextStyle(fontWeight: FontWeight.normal, color: Colors.white),
           textAlign: TextAlign.center,
         ),
